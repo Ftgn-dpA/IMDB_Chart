@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>ECharts</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="js/echarts.min.js"></script>
+    <!--ajax请求用到js-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+<div id="main" style="width: 1550px;height:750px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    //x轴坐标数据
+    var genres = [];
+    //y轴坐标数据
+    var Jan_popularity = [];
+    var Feb_popularity = [];
+    var Mar_popularity = [];
+    var Apr_popularity = [];
+    var May_popularity = [];
+    var Jun_popularity = [];
+    var Jul_popularity = [];
+    var Aug_popularity = [];
+    var Sep_popularity = [];
+    var Oct_popularity = [];
+    var Nov_popularity = [];
+    var Dec_popularity = [];
+
+    $.ajax({
+        type: "POST",
+        url: "imdb",
+        data: "",
+        dataType:"json",
+        success: function (result) {
+            //请求成功,result为服务器返回的json数据
+            if (result) {
+                for (var i = 0; i < result.length; i++) {
+                    if(genres.indexOf(result[i].genres) < 0)
+                        genres.push(result[i].genres);
+                    switch (result[i].month) {
+                        case "1":
+                            Jan_popularity.push(result[i].popularity);
+                            break;
+                        case "2":
+                            Feb_popularity.push(result[i].popularity);
+                            break;
+                        case "3":
+                            Mar_popularity.push(result[i].popularity);
+                            break;
+                        case "4":
+                            Apr_popularity.push(result[i].popularity);
+                            break;
+                        case "5":
+                            May_popularity.push(result[i].popularity);
+                            break;
+                        case "6":
+                            Jun_popularity.push(result[i].popularity);
+                            break;
+                        case "7":
+                            Jul_popularity.push(result[i].popularity);
+                            break;
+                        case "8":
+                            Aug_popularity.push(result[i].popularity);
+                            break;
+                        case "9":
+                            Sep_popularity.push(result[i].popularity);
+                            break;
+                        case "10":
+                            Oct_popularity.push(result[i].popularity);
+                            break;
+                        case "11":
+                            Nov_popularity.push(result[i].popularity);
+                            break;
+                        case "12":
+                            Dec_popularity.push(result[i].popularity);
+                            break;
+                    }
+                }
+            }
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: '各月电影题材热度统计'
+                },
+                tooltip: {},
+                legend: {
+                    data: ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+                },
+                xAxis: {
+                    data: genres,
+                    axisLabel:{
+                        show:60,
+                        interval:0,
+                        rotate:45
+                    }
+                },
+                yAxis: {},
+                series: [
+                    {
+                        name: '一月',
+                        type: 'bar',
+                        data: Jan_popularity
+                    },
+                    {
+                        name: '二月',
+                        type: 'bar',
+                        data: Feb_popularity
+                    },
+                    {
+                        name: '三月',
+                        type: 'bar',
+                        data: Mar_popularity
+                    },
+                    {
+                        name: '四月',
+                        type: 'bar',
+                        data: Apr_popularity
+                    },
+                    {
+                        name: '五月',
+                        type: 'bar',
+                        data: May_popularity
+                    },
+                    {
+                        name: '六月',
+                        type: 'bar',
+                        data: Jun_popularity
+                    },
+                    {
+                        name: '七月',
+                        type: 'bar',
+                        data: Jul_popularity
+                    },
+                    {
+                        name: '八月',
+                        type: 'bar',
+                        data: Aug_popularity
+                    },
+                    {
+                        name: '九月',
+                        type: 'bar',
+                        data: Sep_popularity
+                    },
+                    {
+                        name: '十月',
+                        type: 'bar',
+                        data: Oct_popularity
+                    },
+                    {
+                        name: '十一月',
+                        type: 'bar',
+                        data: Nov_popularity
+                    },
+                    {
+                        name: '十二月',
+                        type: 'bar',
+                        data: Dec_popularity
+                    }
+                ]
+            };
+
+            //使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        },
+        error: function (errorMsg) {
+            //请求失败
+            alert("图表请求数据失败")
+        }
+    });
+
+
+</script>
+</body>
+</html>
